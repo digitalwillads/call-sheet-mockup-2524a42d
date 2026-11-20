@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Welch call, Nov 8 to 14 (mockup)</title>
+<style>
+  :root {
+    --ink: #1d2733; --soft: #6b7480; --faint: #a3aab3; --line: #e6e8eb; --wash: #f4f6f8;
+    --bad: #c63b2f; --good: #1f8a4c; --wait: #b7791f; --act: #2457c5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--ink); font: 16px/1.45 Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 36px 32px 64px; }
+
+  header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px 24px; }
+  h1 { font-size: 30px; line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+  .who { color: var(--soft); font-size: 15px; }
+  .private { color: var(--bad); font-size: 13px; font-weight: 600; margin: 4px 0 0; }
+
+
+  header + .stop { border-top: 0; margin-top: 12px; }
+  .stop { display: grid; grid-template-columns: 140px 1fr; gap: 24px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .stop > *, .stats > *, .row > * { min-width: 0; }
+  .stop > h2 { margin: 2px 0 0; font-size: 16px; font-weight: 700; }
+  .stop > h2 small { display: block; font-weight: 400; color: var(--soft); font-size: 13px; margin-top: 2px; }
+
+  /* results */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat { padding: 0 20px; border-left: 1px solid var(--line); }
+  .stat:first-child { padding-left: 0; border-left: 0; }
+  .stat .k { font-size: 14px; color: var(--soft); }
+  .stat .v { font-size: 40px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .stat .was { font-size: 14px; color: var(--soft); }
+  .stat svg { display: block; margin-top: 8px; }
+  .bad { color: var(--bad); } .good { color: var(--good); }
+
+  /* status dots */
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 10px; vertical-align: 1px; flex: none; }
+  .dot.bad { background: var(--bad); } .dot.good { background: var(--good); } .dot.wait { background: var(--wait); }
+
+  /* cases */
+  .cols { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; }
+  .cols h3, .sub { font-size: 14px; font-weight: 600; color: var(--soft); margin: 0 0 8px; }
+  ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  ul.plain li { display: flex; align-items: baseline; }
+  .case { color: var(--faint); font-size: 13px; margin-left: 8px; font-variant-numeric: tabular-nums; }
+  .why { color: var(--soft); font-size: 14px; margin-left: auto; padding-left: 16px; white-space: nowrap; }
+  .caution { margin: 14px 0 0; font-size: 14px; color: var(--wait); font-weight: 600; }
+
+  /* promises */
+  .meter { display: flex; gap: 4px; margin-bottom: 6px; }
+  .meter i { flex: 1; max-width: 34px; height: 14px; border-radius: 2px; background: var(--good); }
+  .meter i.no { background: var(--bad); }
+  .meter i.wip { background: var(--wait); }
+  .meter-label { font-size: 22px; font-weight: 700; margin: 0 0 14px; }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--act); font-size: 14px; }
+  details ul { margin: 10px 0 0; }
+
+  /* search terms */
+  .share { display: flex; height: 14px; border-radius: 2px; overflow: hidden; margin: 2px 0 6px; }
+  .share i:nth-child(1) { background: var(--ink); } .share i:nth-child(2) { background: #6b7480; } .share i:nth-child(3) { background: #b9bfc6; }
+  .share-label { font-size: 14px; color: var(--soft); margin: 0 0 14px; }
+  .row { display: grid; grid-template-columns: 14px 1fr 90px 80px auto; gap: 16px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+  .row:first-of-type { border-top: 0; }
+  .swatch { width: 14px; height: 14px; border-radius: 2px; }
+  .row .name { font-weight: 600; }
+  .row .name small { display: block; font-weight: 400; color: var(--soft); font-size: 14px; }
+  .row .money { font-size: 22px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  .row .clicks { color: var(--soft); font-size: 14px; text-align: right; }
+  .row details { grid-column: 2 / -1; margin-top: 0; }
+  .terms { columns: 2; column-gap: 32px; font-size: 14px; margin: 8px 0 0; padding: 0; list-style: none; }
+  .terms li { display: flex; justify-content: space-between; gap: 12px; padding: 2px 0; break-inside: avoid; }
+  .terms li span { color: var(--soft); font-variant-numeric: tabular-nums; }
+
+  /* answer buttons */
+  .seg { display: inline-flex; border: 1px solid #cfd4da; border-radius: 6px; overflow: hidden; }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg label { padding: 7px 16px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--soft); user-select: none; }
+  .seg label + input + label { border-left: 1px solid #cfd4da; }
+  .seg input:checked + label.yes { background: var(--good); color: #fff; }
+  .seg input:checked + label.no { background: var(--bad); color: #fff; }
+  .seg input:focus-visible + label { outline: 3px solid var(--act); outline-offset: -3px; }
+
+  /* decision */
+  .decision { display: grid; grid-template-columns: 1fr auto; gap: 8px 32px; align-items: center; }
+  .decision .q { font-size: 22px; font-weight: 700; margin: 0; }
+  .decision .rec { margin: 4px 0 0; font-size: 15px; }
+  .decision .rec b { color: var(--good); }
+  .chart-cap { font-size: 13px; color: var(--soft); }
+
+  /* asks and ideas */
+  .checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .checks label { display: flex; align-items: baseline; gap: 12px; padding: 8px 0; cursor: pointer; font-size: 17px; font-weight: 600; }
+  .checks input { width: 18px; height: 18px; accent-color: var(--good); flex: none; transform: translateY(3px); }
+  .checks small { font-weight: 400; color: var(--soft); font-size: 14px; margin-left: 6px; }
+  .tail { margin: 10px 0 0; font-size: 17px; font-weight: 600; }
+
+  textarea { width: 100%; min-height: 130px; font: inherit; font-size: 15px; padding: 12px; border: 1px solid #cfd4da; border-radius: 6px; }
+  textarea:focus-visible { outline: 3px solid var(--act); outline-offset: 1px; }
+  footer { margin-top: 28px; font-size: 13px; color: var(--faint); }
+
+  @media (max-width: 760px) {
+    main { padding: 24px 18px 48px; }
+    .stop { grid-template-columns: 1fr; gap: 8px; }
+    .stats { grid-template-columns: 1fr 1fr; row-gap: 20px; }
+    .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+    .cols, .decision { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 14px 1fr auto; }
+    .row .clicks { display: none; }
+    .row .seg { grid-column: 2 / -1; justify-self: start; }
+    .terms { columns: 1; }
+    .why { white-space: normal; }
+    ul.plain li { flex-wrap: wrap; }
+    .checks label { flex-wrap: wrap; }
+    .decision .seg { justify-self: start; }
+    .stat .v { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <div>
+    <h1>Welch weekly call</h1>
+    <p class="private">Only for the call lead. The client does not see this page.</p>
+  </div>
+  <div class="who">Week of Nov 8 to 14. Isaac with Erika and Afaf.</div>
+</header>
+
+<section class="stop">
+  <h2>Results<small>Last week vs the week before</small></h2>
+  <div class="stats">
+    <div class="stat">
+      <div class="k">Leads, Google and Bing</div>
+      <div class="v good">62</div>
+      <div class="was">Was 58</div>
+      <svg width="124" height="40" viewBox="0 0 124 40" role="img" aria-label="Leads by week, Oct 11 to Nov 14: 45, 71, 52, 58, 62">
+        <rect x="0" y="19.7" width="18" height="20.3" fill="#c9ced4"/>
+        <rect x="24" y="8.0" width="18" height="32.0" fill="#c9ced4"/>
+        <rect x="48" y="16.6" width="18" height="23.4" fill="#c9ced4"/>
+        <rect x="72" y="13.9" width="18" height="26.1" fill="#c9ced4"/>
+        <rect x="96" y="12.1" width="18" height="27.9" fill="#1f8a4c"/>
+        </svg>
+    </div>
+    <div class="stat">
+      <div class="k">Cost per Google lead</div>
+      <div class="v good">$232</div>
+      <div class="was">Was $263. Goal $175.</div>
+      <svg width="124" height="40" viewBox="0 0 124 40" role="img" aria-label="Cost per Google lead by week, Oct 11 to Nov 14: $366, $187, $350, $263, $232. Goal line at $175.">
+        <rect x="0" y="8.0" width="18" height="32.0" fill="#c9ced4"/>
+        <rect x="24" y="23.6" width="18" height="16.4" fill="#c9ced4"/>
+        <rect x="48" y="9.4" width="18" height="30.6" fill="#c9ced4"/>
+        <rect x="72" y="17.0" width="18" height="23.0" fill="#c9ced4"/>
+        <rect x="96" y="19.7" width="18" height="20.3" fill="#1f8a4c"/>
+        <line x1="0" x2="124" y1="24.7" y2="24.7" stroke="#1d2733" stroke-dasharray="3 3" stroke-width="1"/>
+        </svg>
+    </div>
+    <div class="stat">
+      <div class="k">Google shop orders</div>
+      <div class="v good">6</div>
+      <div class="was">Was 4. Worth $5,100.</div>
+      <svg width="124" height="40" viewBox="0 0 124 40" role="img" aria-label="Shop orders by week, Oct 11 to Nov 14: 3, 1, 2, 4, 6">
+        <rect x="0" y="24.0" width="18" height="16.0" fill="#c9ced4"/>
+        <rect x="24" y="34.7" width="18" height="5.3" fill="#c9ced4"/>
+        <rect x="48" y="29.3" width="18" height="10.7" fill="#c9ced4"/>
+        <rect x="72" y="18.7" width="18" height="21.3" fill="#c9ced4"/>
+        <rect x="96" y="8.0" width="18" height="32.0" fill="#1f8a4c"/>
+        </svg>
+    </div>
+    <div class="stat">
+      <div class="k">Bing conversions</div>
+      <div class="v good">19</div>
+      <div class="was">Was 18</div>
+      <svg width="124" height="40" viewBox="0 0 124 40" role="img" aria-label="Bing conversions by week, Oct 11 to Nov 14: 19, 17, 21, 18, 19">
+        <rect x="0" y="11.0" width="18" height="29.0" fill="#c9ced4"/>
+        <rect x="24" y="14.1" width="18" height="25.9" fill="#c9ced4"/>
+        <rect x="48" y="8.0" width="18" height="32.0" fill="#c9ced4"/>
+        <rect x="72" y="12.6" width="18" height="27.4" fill="#c9ced4"/>
+        <rect x="96" y="11.0" width="18" height="29.0" fill="#1f8a4c"/>
+        </svg>
+    </div>
+  </div>
+</section>
+
+<section class="stop">
+  <h2>Cases<small>As of Nov 16</small></h2>
+  <div>
+    <div class="cols">
+      <div>
+        <h3>Waiting on us</h3>
+        <ul class="plain">
+          <li><i class="dot wait"></i>Fix the Merchant Center feed<span class="case">318</span><span class="why">Needs Will's OK</span></li>
+          <li><i class="dot wait"></i>Gardner Denver as its own brand<span class="case">323</span><span class="why">Needs Will's OK</span></li>
+          <li><i class="dot wait"></i>Shopping and Performance Max plan<span class="case">350</span><span class="why">Needs Will's OK</span></li>
+          <li><i class="dot wait"></i>Count their real leads<span class="case">370</span><span class="why">Needs Will's answer</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Done</h3>
+        <ul class="plain">
+          <li><i class="dot good"></i>Trim Germany competitors<span class="case">327</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="caution">Give no dates for the cases that wait on us.</p>
+  </div>
+</section>
+
+<section class="stop">
+  <h2>Promises<small>From the Nov 13 call</small></h2>
+  <div>
+    <div class="meter" role="img" aria-label="2 of 5 promises done, 1 in progress, 2 not done"><i></i><i></i><i class="wip"></i><i class="no"></i><i class="no"></i></div>
+    <p class="meter-label">2 of 5 done</p>
+    <ul class="plain">
+      <li><i class="dot wait"></i>Put the Black Friday sale on the shop ads<span class="why">Started Nov 18</span></li>
+      <li><i class="dot bad"></i>Send ChatGPT results from other clients</li>
+      <li><i class="dot bad"></i>Send the full ChatGPT proposal</li>
+    </ul>
+    <details>
+      <summary>Show the 2 done</summary>
+      <ul class="plain">
+        <li><i class="dot good"></i>Sent the weekly report on Monday</li>
+        <li><i class="dot good"></i>Sent the ChatGPT ad designs, in the weekly report</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<section class="stop">
+  <h2>Search terms<small>Keep or cut each group</small></h2>
+  <div>
+    <div class="share" role="img" aria-label="Spend by group: other company names $72, unclear pump type $30, parent group name $11">
+      <i style="width:63.4%"></i><i style="width:26.6%"></i><i style="width:10.0%"></i>
+    </div>
+    <p class="share-label">$113 in 90 days, 0 conversions</p>
+
+    <div class="row">
+      <i class="swatch" style="background:#1d2733"></i>
+      <div class="name">Other company names<small>Theirs, or another company?</small></div>
+      <div class="money">$72</div>
+      <div class="clicks">5 clicks</div>
+      <div class="seg"><input type="radio" name="g1" id="g1k"><label for="g1k" class="yes">Keep</label><input type="radio" name="g1" id="g1c"><label for="g1c" class="no">Cut</label></div>
+      <details><summary>Show the 4 searches</summary>
+        <ul class="terms"><li>welch pump company<span>$26.22</span></li><li>tigemma spol s r o<span>$21.34</span></li><li>duke vacuum pumps<span>$12.56</span></li><li>vacuum tech<span>$11.60</span></li></ul>
+      </details>
+    </div>
+
+    <div class="row">
+      <i class="swatch" style="background:#6b7480"></i>
+      <div class="name">Unclear pump type<small>A pump they make?</small></div>
+      <div class="money">$30</div>
+      <div class="clicks">4 clicks</div>
+      <div class="seg"><input type="radio" name="g2" id="g2k"><label for="g2k" class="yes">Keep</label><input type="radio" name="g2" id="g2c"><label for="g2c" class="no">Cut</label></div>
+      <details><summary>Show the 4 searches</summary>
+        <ul class="terms"><li>pumps manufacturer<span>$13.99</span></li><li>vacuum calibration<span>$10.34</span></li><li>vacuum pump water<span>$5.77</span></li><li>solid vacuum pump<span>$0.00</span></li></ul>
+      </details>
+    </div>
+
+    <div class="row">
+      <i class="swatch" style="background:#b9bfc6"></i>
+      <div class="name">Parent group name<small>Gardner Denver: keep as brand?</small></div>
+      <div class="money">$11</div>
+      <div class="clicks">3 clicks</div>
+      <div class="seg"><input type="radio" name="g3" id="g3k"><label for="g3k" class="yes">Keep</label><input type="radio" name="g3" id="g3c"><label for="g3c" class="no">Cut</label></div>
+      <details><summary>Show the search</summary>
+        <ul class="terms"><li>vakuumpumpe gardner denver<span>$11.26</span></li></ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="stop">
+  <h2>Decision<small>They say yes or no</small></h2>
+  <div class="decision">
+    <div>
+      <p class="q">Turn off non-brand ads on Sundays?</p>
+      <p class="rec">We recommend <b>yes</b>. 5 Sundays cost $3,672 and brought 2 leads.</p>
+    </div>
+    <div class="seg"><input type="radio" name="d1" id="d1y"><label for="d1y" class="yes">Yes</label><input type="radio" name="d1" id="d1n"><label for="d1n" class="no">No</label></div>
+    <div>
+      <svg width="124" height="40" viewBox="0 0 124 40" role="img" aria-label="Non-brand spend each Sunday, Oct 11 to Nov 8: $1,362, $1,205, $500, $313, $292">
+        <rect x="0" y="8.0" width="18" height="32.0" fill="#c9ced4"/>
+        <rect x="24" y="11.7" width="18" height="28.3" fill="#c9ced4"/>
+        <rect x="48" y="28.3" width="18" height="11.7" fill="#c9ced4"/>
+        <rect x="72" y="32.7" width="18" height="7.3" fill="#c9ced4"/>
+        <rect x="96" y="33.1" width="18" height="6.9" fill="#c63b2f"/>
+        </svg>
+      <div class="chart-cap">Non-brand spend each Sunday, Oct 11 to Nov 8</div>
+    </div>
+  </div>
+</section>
+
+<section class="stop">
+  <h2>We need<small>Tick when they agree</small></h2>
+  <ul class="checks">
+    <li><label><input type="checkbox">Their new lead goal<small>Afaf said she would resend it</small></label></li>
+  </ul>
+</section>
+
+<section class="stop">
+  <h2>Ideas<small>Tick what they want</small></h2>
+  <div>
+    <ul class="checks">
+      <li><label><input type="checkbox">A free ChatGPT ads test<small>Erika asked for the proposal on Nov 13</small></label></li>
+      <li><label><input type="checkbox">Gardner Denver as its own brand campaign<small>German searches use the parent name</small></label></li>
+    </ul>
+    <p class="tail">Ask for their ideas.</p>
+  </div>
+</section>
+
+<section class="stop">
+  <h2>Notes</h2>
+  <textarea aria-label="Notes from the call" placeholder="What they said"></textarea>
+</section>
+
+<footer>Mockup built Nov 20 from the Welch report for Nov 8 to 14, the Nov 13 promises check, the client log, team mail and one Google Ads read.</footer>
+</main>
+</body>
+</html>
