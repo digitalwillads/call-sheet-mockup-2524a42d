@@ -71,9 +71,11 @@
   .row .money { font-size: 22px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
   .row .clicks { color: var(--soft); font-size: 14px; text-align: right; }
   .row details { grid-column: 2 / -1; margin-top: 0; }
-  .terms { columns: 2; column-gap: 32px; font-size: 14px; margin: 8px 0 0; padding: 0; list-style: none; }
-  .terms li { display: flex; justify-content: space-between; gap: 12px; padding: 2px 0; break-inside: avoid; }
-  .terms li span { color: var(--soft); font-variant-numeric: tabular-nums; }
+
+  .terms { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; font-size: 15px; }
+  .terms li { display: grid; grid-template-columns: 1fr 70px 70px auto; gap: 12px; align-items: center; }
+  .terms .c, .terms .d { color: var(--soft); font-size: 14px; text-align: right; font-variant-numeric: tabular-nums; }
+  .seg.sm label { padding: 4px 12px; font-size: 13px; }
 
   /* answer buttons */
   .seg { display: inline-flex; border: 1px solid #cfd4da; border-radius: 6px; overflow: hidden; }
@@ -111,7 +113,8 @@
     .row { grid-template-columns: 14px 1fr auto; }
     .row .clicks { display: none; }
     .row .seg { grid-column: 2 / -1; justify-self: start; }
-    .terms { columns: 1; }
+    .terms li { grid-template-columns: 1fr auto auto; }
+    .terms .c { display: none; }
     .why { white-space: normal; }
     ul.plain li { flex-wrap: wrap; }
     .checks label { flex-wrap: wrap; }
@@ -231,7 +234,7 @@
 </section>
 
 <section class="stop">
-  <h2>Search terms<small>Keep or cut each group</small></h2>
+  <h2>Search terms<small>Keep or cut each search</small></h2>
   <div>
     <div class="share" role="img" aria-label="Spend by group: other company names $72, unclear pump type $30, parent group name $11">
       <i style="width:63.4%"></i><i style="width:26.6%"></i><i style="width:10.0%"></i>
@@ -243,9 +246,9 @@
       <div class="name">Other company names<small>Theirs, or another company?</small></div>
       <div class="money">$72</div>
       <div class="clicks">5 clicks</div>
-      <div class="seg"><input type="radio" name="g1" id="g1k"><label for="g1k" class="yes">Keep</label><input type="radio" name="g1" id="g1c"><label for="g1c" class="no">Cut</label></div>
-      <details><summary>Show the 4 searches</summary>
-        <ul class="terms"><li>welch pump company<span>$26.22</span></li><li>tigemma spol s r o<span>$21.34</span></li><li>duke vacuum pumps<span>$12.56</span></li><li>vacuum tech<span>$11.60</span></li></ul>
+      <div class="seg"><input type="radio" name="g1" id="g1k" value="keep"><label for="g1k" class="yes">Keep all</label><input type="radio" name="g1" id="g1c" value="cut"><label for="g1c" class="no">Cut all</label></div>
+      <details open><summary>Show the 4 searches</summary>
+        <ul class="terms"><li><span class="t">welch pump company</span><span class="c">2 clicks</span><span class="d">$26.22</span><div class="seg sm"><input type="radio" name="g1-1" id="g1-1k" value="keep"><label for="g1-1k" class="yes">Keep</label><input type="radio" name="g1-1" id="g1-1c" value="cut"><label for="g1-1c" class="no">Cut</label></div></li><li><span class="t">tigemma spol s r o</span><span class="c">1 click</span><span class="d">$21.34</span><div class="seg sm"><input type="radio" name="g1-2" id="g1-2k" value="keep"><label for="g1-2k" class="yes">Keep</label><input type="radio" name="g1-2" id="g1-2c" value="cut"><label for="g1-2c" class="no">Cut</label></div></li><li><span class="t">duke vacuum pumps</span><span class="c">1 click</span><span class="d">$12.56</span><div class="seg sm"><input type="radio" name="g1-3" id="g1-3k" value="keep"><label for="g1-3k" class="yes">Keep</label><input type="radio" name="g1-3" id="g1-3c" value="cut"><label for="g1-3c" class="no">Cut</label></div></li><li><span class="t">vacuum tech</span><span class="c">1 click</span><span class="d">$11.60</span><div class="seg sm"><input type="radio" name="g1-4" id="g1-4k" value="keep"><label for="g1-4k" class="yes">Keep</label><input type="radio" name="g1-4" id="g1-4c" value="cut"><label for="g1-4c" class="no">Cut</label></div></li></ul>
       </details>
     </div>
 
@@ -254,9 +257,9 @@
       <div class="name">Unclear pump type<small>A pump they make?</small></div>
       <div class="money">$30</div>
       <div class="clicks">4 clicks</div>
-      <div class="seg"><input type="radio" name="g2" id="g2k"><label for="g2k" class="yes">Keep</label><input type="radio" name="g2" id="g2c"><label for="g2c" class="no">Cut</label></div>
-      <details><summary>Show the 4 searches</summary>
-        <ul class="terms"><li>pumps manufacturer<span>$13.99</span></li><li>vacuum calibration<span>$10.34</span></li><li>vacuum pump water<span>$5.77</span></li><li>solid vacuum pump<span>$0.00</span></li></ul>
+      <div class="seg"><input type="radio" name="g2" id="g2k" value="keep"><label for="g2k" class="yes">Keep all</label><input type="radio" name="g2" id="g2c" value="cut"><label for="g2c" class="no">Cut all</label></div>
+      <details open><summary>Show the 4 searches</summary>
+        <ul class="terms"><li><span class="t">pumps manufacturer</span><span class="c">1 click</span><span class="d">$13.99</span><div class="seg sm"><input type="radio" name="g2-1" id="g2-1k" value="keep"><label for="g2-1k" class="yes">Keep</label><input type="radio" name="g2-1" id="g2-1c" value="cut"><label for="g2-1c" class="no">Cut</label></div></li><li><span class="t">vacuum calibration</span><span class="c">1 click</span><span class="d">$10.34</span><div class="seg sm"><input type="radio" name="g2-2" id="g2-2k" value="keep"><label for="g2-2k" class="yes">Keep</label><input type="radio" name="g2-2" id="g2-2c" value="cut"><label for="g2-2c" class="no">Cut</label></div></li><li><span class="t">vacuum pump water</span><span class="c">2 clicks</span><span class="d">$5.77</span><div class="seg sm"><input type="radio" name="g2-3" id="g2-3k" value="keep"><label for="g2-3k" class="yes">Keep</label><input type="radio" name="g2-3" id="g2-3c" value="cut"><label for="g2-3c" class="no">Cut</label></div></li><li><span class="t">solid vacuum pump</span><span class="c">0 clicks</span><span class="d">$0.00</span><div class="seg sm"><input type="radio" name="g2-4" id="g2-4k" value="keep"><label for="g2-4k" class="yes">Keep</label><input type="radio" name="g2-4" id="g2-4c" value="cut"><label for="g2-4c" class="no">Cut</label></div></li></ul>
       </details>
     </div>
 
@@ -265,9 +268,9 @@
       <div class="name">Parent group name<small>Gardner Denver: keep as brand?</small></div>
       <div class="money">$11</div>
       <div class="clicks">3 clicks</div>
-      <div class="seg"><input type="radio" name="g3" id="g3k"><label for="g3k" class="yes">Keep</label><input type="radio" name="g3" id="g3c"><label for="g3c" class="no">Cut</label></div>
-      <details><summary>Show the search</summary>
-        <ul class="terms"><li>vakuumpumpe gardner denver<span>$11.26</span></li></ul>
+      <div class="seg"><input type="radio" name="g3" id="g3k" value="keep"><label for="g3k" class="yes">Keep all</label><input type="radio" name="g3" id="g3c" value="cut"><label for="g3c" class="no">Cut all</label></div>
+      <details open><summary>Show the search</summary>
+        <ul class="terms"><li><span class="t">vakuumpumpe gardner denver</span><span class="c">3 clicks</span><span class="d">$11.26</span><div class="seg sm"><input type="radio" name="g3-1" id="g3-1k" value="keep"><label for="g3-1k" class="yes">Keep</label><input type="radio" name="g3-1" id="g3-1c" value="cut"><label for="g3-1c" class="no">Cut</label></div></li></ul>
       </details>
     </div>
   </div>
@@ -319,5 +322,23 @@
 
 <footer>Mockup built Nov 20 from the Welch report for Nov 8 to 14, the Nov 13 promises check, the client log, team mail and one Google Ads read.</footer>
 </main>
+<script>
+// Keep all / Cut all set every search in the group; picking searches one by one clears them when the group is mixed.
+document.querySelectorAll('.row').forEach(row => {
+  const name = row.querySelector('.name').firstChild.textContent.trim();
+  const all = [...row.querySelectorAll(':scope > .seg input')];
+  const items = [...row.querySelectorAll('.seg.sm')];
+  all.forEach(g => g.addEventListener('change', () => {
+    items.forEach(it => { it.querySelector(`input[value="${g.value}"]`).checked = true; });
+    console.log(`call sheet: "${name}" set all ${items.length} searches to ${g.value}`);
+  }));
+  items.forEach(it => it.addEventListener('change', e => {
+    const picks = items.map(i => i.querySelector('input:checked')?.value);
+    const same = picks.every(v => v && v === picks[0]);
+    all.forEach(g => { g.checked = same && g.value === picks[0]; });
+    console.log(`call sheet: "${it.closest('li').querySelector('.t').textContent}" set to ${e.target.value}; "${name}" is ${same ? 'all ' + picks[0] : 'mixed'}`);
+  }));
+});
+</script>
 </body>
 </html>
