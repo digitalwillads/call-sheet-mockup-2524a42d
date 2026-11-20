@@ -47,6 +47,20 @@
   ul.plain li { display: flex; align-items: baseline; }
   .case { color: var(--faint); font-size: 13px; margin-left: 8px; font-variant-numeric: tabular-nums; }
   .why { color: var(--soft); font-size: 14px; margin-left: auto; padding-left: 16px; white-space: nowrap; }
+  .case-d { margin-top: 0; flex: 1; }
+  .case-d > summary { display: flex; align-items: baseline; cursor: pointer; list-style: none; color: var(--ink); font-size: 16px; }
+  .case-d > summary::-webkit-details-marker { display: none; }
+  .case-d > summary::after { content: "\25B8"; color: var(--faint); font-size: 12px; margin-left: 10px; transition: transform .15s; }
+  .case-d[open] > summary::after { transform: rotate(90deg); }
+  .case-d > summary:hover { color: var(--act); }
+  .case-d > summary:focus-visible { outline: 3px solid var(--act); outline-offset: 2px; }
+  .tl { list-style: none; margin: 10px 0 14px 4px; padding: 0 0 0 18px; border-left: 2px solid var(--line); display: grid; gap: 8px; }
+  .tl li { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: 10px; font-size: 14px; line-height: 1.4; }
+  .tl li::before { content: ""; position: absolute; left: -24px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #c9ced4; }
+  .tl li.now::before { background: var(--wait); } .tl li.done::before { background: var(--good); }
+  .tl time { white-space: nowrap; color: var(--soft); font-variant-numeric: tabular-nums; }
+  .tl li.now span { color: var(--wait); font-weight: 600; } .tl li.done span { color: var(--good); font-weight: 600; }
+  @media (prefers-reduced-motion: reduce) { .case-d > summary::after { transition: none; } }
   .caution { margin: 14px 0 0; font-size: 14px; color: var(--wait); font-weight: 600; }
 
   /* promises */
@@ -190,22 +204,22 @@
 </section>
 
 <section class="stop">
-  <h2>Cases<small>As of Nov 16</small></h2>
+  <h2>Cases<small>Click a case for its story</small></h2>
   <div>
     <div class="cols">
       <div>
         <h3>Waiting on us</h3>
         <ul class="plain">
-          <li><i class="dot wait"></i>Fix the Merchant Center feed<span class="case">318</span><span class="why">Needs Will's OK</span></li>
-          <li><i class="dot wait"></i>Gardner Denver as its own brand<span class="case">323</span><span class="why">Needs Will's OK</span></li>
-          <li><i class="dot wait"></i>Shopping and Performance Max plan<span class="case">350</span><span class="why">Needs Will's OK</span></li>
-          <li><i class="dot wait"></i>Count their real leads<span class="case">370</span><span class="why">Needs Will's answer</span></li>
+          <li><details class="case-d"><summary><i class="dot wait"></i>Fix the Merchant Center feed<span class="case">318</span><span class="why">Needs Will's OK</span></summary><ol class="tl"><li class=""><time>Nov 1</time><span>Plan: fix 2 pump prices, the business name and a second GA4 link.</span></li><li class=""><time>Nov 11</time><span>Found a price filter that sends a $0.01 product. New plan: one $250 to $260 filter and a fixed price mapping.</span></li><li class="now"><time>Now</time><span>Waits on Will's OK. Then Dmytro makes the fix.</span></li></ol></details></li>
+          <li><details class="case-d"><summary><i class="dot wait"></i>Gardner Denver as its own brand<span class="case">323</span><span class="why">Needs Will's OK</span></summary><ol class="tl"><li class=""><time>Nov 1</time><span>Asked Will: is "gardner denver" alone a brand word?</span></li><li class=""><time>Nov 11</time><span>Plan: run Gardner Denver Welch as its own brand, clean the mixed ad groups and refresh the ads.</span></li><li class="now"><time>Now</time><span>Waits on Will's OK.</span></li></ol></details></li>
+          <li><details class="case-d"><summary><i class="dot wait"></i>Shopping and Performance Max plan<span class="case">350</span><span class="why">Needs Will's OK</span></summary><ol class="tl"><li class=""><time>Nov 1</time><span>Opened: a $50 a day Performance Max test had no written yes from Afaf.</span></li><li class=""><time>Nov 11</time><span>Found no Shopping campaign running, and no product feed behind the test. Plan: keep the test paused, or build one Shopping campaign from the feed.</span></li><li class="now"><time>Now</time><span>Waits on Will's OK.</span></li></ol></details></li>
+          <li><details class="case-d"><summary><i class="dot wait"></i>Count their real leads<span class="case">370</span><span class="why">Needs Will's answer</span></summary><ol class="tl"><li class=""><time>Nov 11</time><span>Plan: find where Welch keeps its leads, so we count real leads against Google's.</span></li><li class="now"><time>Now</time><span>Waits on Will's answer.</span></li></ol></details></li>
         </ul>
       </div>
       <div>
         <h3>Done</h3>
         <ul class="plain">
-          <li><i class="dot good"></i>Trim Germany competitors<span class="case">327</span></li>
+          <li><details class="case-d"><summary><i class="dot good"></i>Trim Germany competitors<span class="case">327</span></summary><ol class="tl"><li class=""><time>Nov 1</time><span>Plan: check the cost per lead of the 4 competitor campaigns.</span></li><li class=""><time>Nov 10</time><span>Dmytro cut Germany competitors to $30 a day.</span></li><li class=""><time>Nov 11</time><span>Found 3 campaigns at or near the $175 goal. Germany spent $159 for almost no leads.</span></li><li class="done"><time>Nov 16</time><span>Done: Germany competitors cut from $30 to $15 a day, on Will's yes.</span></li></ol></details></li>
         </ul>
       </div>
     </div>
